@@ -11,9 +11,9 @@ pipeline{
                   sh 'mvn install'  
                 }
              }
-          post{
-          always{
-            archiveArtifacts artifacts:'target/*.jar',followSymlinks:false
+                post{
+                    always{
+                        archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
             }
           }
 stage('cleanws'){
