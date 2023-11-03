@@ -10,13 +10,13 @@ pipeline{
                 steps{
                   sh 'mvn install'  
                 }
-             }
                 post{
                     always{
                         archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
             }
           }
-stage('cleanws'){
+        }
+        stage('cleanws'){
                 steps{
                     cleanWs()
                   }
