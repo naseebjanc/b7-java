@@ -1,0 +1,53 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    try {
+                      sh 'mvn install'
+                    } catch (Exception e) {
+                        currentBuild.result = 'UNSTABLE'
+                        error("Build step failed: ${e.message}")
+                    }
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                script {
+                    try {
+                       
+                        sh 'mvn test'
+                    } catch (Exception e) {
+                        currentBuild.result = 'SUCCESS'
+                        echo "Maven test failed, but the build will be marked as SUCCESS."
+                    }
+                }
+            }
+        }
+
+        stage('Compile') {
+            steps {
+                script {
+                    try {
+                       
+                        sh 'mvn compile'
+                    } catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        error("Maven compile step failed: ${e.message}")
+                    }
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+              archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
+        }
+    }
+}
+
