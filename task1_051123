@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Build your project using mvn install
-                    def buildResult = sh(script: 'mvn install', returnStatus: false)
+                    def buildResult = sh(script: 'mvn install', returnStatus: true)
 
                     if (buildResult == 0) {
                         currentBuild.result = 'SUCCESS'
