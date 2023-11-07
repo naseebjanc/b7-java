@@ -1,0 +1,18 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    try {
+                      sh 'mvn install'
+                    } catch (Exception e) {
+                        currentBuild.result = 'UNSTABLE'
+                        error("Build step failed: ${e.message}")
+                    }
+                }
+            }
+        }
+  }
+}
