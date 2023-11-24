@@ -2,11 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/naseebjanc/b7-java.git'
-            }
-        }
+       
 
         stage('Build Image') {
             steps {
