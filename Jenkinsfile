@@ -2,16 +2,17 @@ pipeline {
     agent any
 
     stages {
-       stage ('checkout'){
-          steps {
+        stage('Checkout') {
+            steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url:'https://github.com/naseebjanc/b7-java.git']]])
-          }}    
+            }
+        }
 
         stage('Build Image') {
             steps {
                 // Build your Docker image
                 script {
-                  sh 'docker build -t tomcat:latest .'
+                    sh 'docker build -t tomcat:latest .'
                 }
             }
         }
@@ -21,12 +22,9 @@ pipeline {
                 // Push the Docker image to Docker Hub
                 script {
                     withCredentials([usernamePassword(credentialsId: 'dockerhubpwd', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
-                        sh 'docker login --username naseeb786 -p ${dockerhubpwd}'
+                        sh "docker login --username ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}"
                         sh 'docker tag tomcat:latest naseeb786/tomcat:latest'
                         sh 'docker push naseeb786/tomcat:latest'
-
-                            
-                        }
                     }
                 }
             }
