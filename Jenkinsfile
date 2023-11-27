@@ -11,7 +11,7 @@ pipeline {
             steps {
                 // Build your Docker image
                 script {
-                    dockerImage = docker.build('tomcat:latest', '.')
+                  sh 'docker build -t tomcat:latest .'
                 }
             }
         }
@@ -21,8 +21,11 @@ pipeline {
                 // Push the Docker image to Docker Hub
                 script {
                     withCredentials([usernamePassword(credentialsId: 'dockerhubpwd', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
-                        docker.withRegistry('https://registry.hub.docker.com', 'dockerhubpwd') {
-                            dockerImage.push()
+                        sh 'docker login --username naseeb786 -p ${dockerhubpwd}'
+                        sh 'docker tag tomcat:latest naseeb786/tomcat:latest'
+                        sh 'docker push naseeb786/tomcat:latest'
+
+                            
                         }
                     }
                 }
