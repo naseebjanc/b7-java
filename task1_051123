@@ -1,0 +1,59 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    // Build your project using mvn install
+                    def buildResult = sh(script: 'mvn install', returnStatus: true)
+
+                    if (buildResult == 0) {
+                        currentBuild.result = 'SUCCESS'
+                    } else {
+                        // If mvn install fails, make the build unstable
+                        currentBuild.result = 'UNSTABLE'
+                    }
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                script {
+                    // Run tests using mvn test
+                    def testResult = sh(script: 'mvn test', returnStatus: true)
+
+                    if (testResult == 0) {
+                        currentBuild.result = 'SUCCESS'
+                    } else {
+                        // If mvn test fails, proceed to compilation
+                        currentBuild.result = 'SUCCESS'
+                    }
+                }
+            }
+        }
+
+        stage('Compile') {
+            steps {
+                script {
+                    // Compile the project using mvn compile
+                    def compileResult = sh(script: 'mvn compile', returnStatus: true)
+
+                    if (compileResult == 0) {
+                        currentBuild.result = 'SUCCESS'
+                    } else {
+                        // If mvn compile fails, make the build unstable
+                        currentBuild.result = 'UNSTABLE'
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
+        }
+    }
+}
