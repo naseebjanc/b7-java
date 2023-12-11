@@ -4,7 +4,7 @@ pipeline {
         registryName = "jan123"
         registryUrl = "jan123.azurecr.io"
         registryCredential = "ACR"
-        dockerImage = "
+        dockerImage = ''
     }
     stages {
         stage('build') {
