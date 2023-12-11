@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/naseebjanc/b7-java.git']])
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/naseebjanc/b7-java.git']])
                 sh 'mvn clean install'
             }
         }
