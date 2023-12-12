@@ -32,10 +32,10 @@ pipeline {
                     def sonarScannerCmd = "${scannerHome}/bin/sonar-scanner"
                     try {
                         withSonarQubeEnv('sonarqube') {
-                            sh "${mavenCmd} sonar:sonar -Dsonar.login='${SONARQUBE_TOKEN}'"
+                            sh '''${mavenCmd} sonar:sonar -Dsonar.login="${SONARQUBE_TOKEN}"'''
                         }
                     } finally {
-                        sh "${sonarScannerCmd} -Dsonar.login='${SONARQUBE_TOKEN}'"
+                        sh '''${sonarScannerCmd} -Dsonar.login="${SONARQUBE_TOKEN}"'''
                     }
                 }
             }
