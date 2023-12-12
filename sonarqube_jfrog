@@ -8,7 +8,7 @@ pipeline {
     }
     
     stages {
-         stage('Checkout') {
+        stage('Checkout') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url:'https://github.com/naseebjanc/b7-java.git']]])
             }
@@ -26,9 +26,15 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    withSonarQubeEnv('sonarqube') {
-                        def mavenCmd = "${MAVEN_HOME}/bin/mvn"
-                        sh "${mavenCmd} sonar:sonar -Dsonar.login=${SONARQUBE_TOKEN}"
+                    def scannerHome = tool 'SonarQubeScanner'
+                    def mavenCmd = "${MAVEN_HOME}/bin/mvn"
+                    def sonarScannerCmd = "${scannerHome}/bin/sonar-scanner"
+                    try {
+                        withSonarQubeEnv('sonarqube') {
+                            sh "${mavenCmd} sonar:sonar -Dsonar.login=${SONARQUBE_TOKEN}"
+                        }
+                    } finally {
+                        sh "${sonarScannerCmd} -Dsonar.login=${SONARQUBE_TOKEN}"
                     }
                 }
             }
