@@ -68,3 +68,27 @@
     </plugins>
   </build>
 </project>
+<!-- pom.xml -->
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.sonarsource.scanner.maven</groupId>
+      <artifactId>sonar-maven-plugin</artifactId>
+      <version>3.7.0.1746</version>
+    </plugin>
+  </plugins>
+</build>
+<profiles>
+  <profile>
+    <id>SonarQube</id>
+    <activation>
+      <activeByDefault>true</activeByDefault>
+    </activation>
+    <properties>
+      <!-- SonarQube server URL -->
+      <sonar.host.url>http://4.154.33.176:9000/</sonar.host.url>
+      <!-- SonarQube authentication token or credentials -->
+      <sonar.login>your-sonar-token-or-username</sonar.login>
+    </properties>
+  </profile>
+</profiles>
