@@ -65,11 +65,7 @@
           </execution>
         </executions>
       </plugin>
-    </plugins>
-  </build>
-</project>
-<!-- pom.xml -->
-<build>
+ 
   <plugins>
     <plugin>
       <groupId>org.sonarsource.scanner.maven</groupId>
@@ -94,7 +90,8 @@
 </profiles>
 <distributionManagement>
     <repository>
-        <id>artifactory-repo</id>
-        <url>http://20.213.95.76:8082/artifactory/libs-release-local</url>
+        <id>Jfrog</id>
+        <url>http://20.213.95.76:8082/</url>
     </repository>
 </distributionManagement>
+</project>
