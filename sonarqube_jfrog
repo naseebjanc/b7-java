@@ -1,19 +1,20 @@
 pipeline {
     agent any
-
+    
     environment {
         SONARQUBE_URL = 'http://4.154.33.176:9000/'
         JFROG_ARTIFACTORY_URL = 'http://20.213.95.76:8082/'
         MAVEN_HOME = tool 'Maven'
     }
-
+    
     stages {
-        stage('Checkout') {
+         stage('Checkout') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url:'https://github.com/naseebjanc/b7-java.git']]])
             }
         }
 
+        
         stage('Build') {
             steps {
                 script {
@@ -28,7 +29,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('SonarQube') {
-                        sh "mvn sonar:sonar"
+                        sh "mvn sonar:sonar -Dsonar.login=${sonarqube-token}"
                     }
                 }
             }
@@ -46,6 +47,6 @@ pipeline {
             }
         }
     }
-
+    
     
 }
