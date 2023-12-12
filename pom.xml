@@ -88,7 +88,7 @@
       <!-- SonarQube server URL -->
       <sonar.host.url>http://4.154.33.176:9000/</sonar.host.url>
       <!-- SonarQube authentication token or credentials -->
-      <sonar.login>your-sonar-token-or-username</sonar.login>
+      <sonar.login>your-admin</sonar.login>
     </properties>
   </profile>
 </profiles>
