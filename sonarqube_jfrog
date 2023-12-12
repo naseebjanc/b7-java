@@ -14,12 +14,10 @@ pipeline {
             }
         }
 
-        
         stage('Build') {
             steps {
                 script {
-                    def mvnHome = tool 'Maven'
-                    def mavenCmd = "${mvnHome}/bin/mvn"
+                    def mavenCmd = "${MAVEN_HOME}/bin/mvn"
                     sh "${mavenCmd} clean install"
                 }
             }
@@ -29,7 +27,8 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('sonarqube') {
-                        sh "mvn sonar:sonar -Dsonar.login=${sonarqube_token}"
+                        def mavenCmd = "${MAVEN_HOME}/bin/mvn"
+                        sh "${mavenCmd} sonar:sonar -Dsonar.login=${SONARQUBE_TOKEN}"
                     }
                 }
             }
@@ -47,6 +46,4 @@ pipeline {
             }
         }
     }
-    
-    
 }
