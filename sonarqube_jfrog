@@ -6,7 +6,7 @@ pipeline {
         JFROG_ARTIFACTORY_URL = 'http://20.213.95.76:8082/'
         MAVEN_HOME = tool 'Maven'
     }
-    
+
     stages {
         stage('Checkout') {
             steps {
@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script {
                     def scannerHome = tool 'SonarQubeScanner'
-                    withSonarQubeEnv('sonarqube') {
+                    withCredentials([string(credentialsId: 'SONARQUBE_TOKEN', variable: 'SONARQUBE_TOKEN')]) {
                         def mavenCmd = "${MAVEN_HOME}/bin/mvn"
                         def sonarScannerCmd = "${scannerHome}/bin/sonar-scanner"
                         
