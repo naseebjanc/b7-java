@@ -37,16 +37,5 @@ pipeline {
             }
         }
 
-        stage('Deploy to Artifactory') {
-            steps {
-                script {
-                    def rtMaven = tool 'Artifactory-Maven'
-                    def mavenCmd = "${rtMaven}/bin/mvn"
-                    def deployCmd = "${mavenCmd} deploy -Dmaven.test.skip=true"
-
-                    sh "${deployCmd}"
-                }
-            }
-        }
-    }
+           }
 }
